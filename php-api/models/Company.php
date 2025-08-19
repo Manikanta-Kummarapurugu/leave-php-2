@@ -2,7 +2,7 @@
 <?php
 class Company {
     private $conn;
-    private $table_name = "tblcompany";
+    private $table_name = "company";
 
     public $COMPANYID;
     public $COMPANYNAME;
@@ -13,16 +13,33 @@ class Company {
         $this->conn = $db;
     }
 
-    function read() {
+    public function read() {
         $query = "SELECT * FROM " . $this->table_name . " ORDER BY COMPANYNAME";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
-    function create() {
+    public function readOne() {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE COMPANYID = ? LIMIT 0,1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(1, $this->COMPANYID);
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($row) {
+            $this->COMPANYNAME = $row['COMPANYNAME'];
+            $this->COMPANYADDRESS = $row['COMPANYADDRESS'];
+            $this->COMPANYCONTACTNO = $row['COMPANYCONTACTNO'];
+            return true;
+        }
+        return false;
+    }
+
+    public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
-                SET COMPANYNAME=:companyname, COMPANYADDRESS=:companyaddress, COMPANYCONTACTNO=:companycontactno";
+                  SET COMPANYNAME=:companyname, COMPANYADDRESS=:companyaddress, COMPANYCONTACTNO=:companycontactno";
 
         $stmt = $this->conn->prepare($query);
 
@@ -40,10 +57,12 @@ class Company {
         return false;
     }
 
-    function update() {
+    public function update() {
         $query = "UPDATE " . $this->table_name . " 
-                SET COMPANYNAME=:companyname, COMPANYADDRESS=:companyaddress, COMPANYCONTACTNO=:companycontactno
-                WHERE COMPANYID=:companyid";
+                  SET COMPANYNAME = :companyname, 
+                      COMPANYADDRESS = :companyaddress, 
+                      COMPANYCONTACTNO = :companycontactno
+                  WHERE COMPANYID = :companyid";
 
         $stmt = $this->conn->prepare($query);
 
@@ -52,10 +71,10 @@ class Company {
         $this->COMPANYCONTACTNO = htmlspecialchars(strip_tags($this->COMPANYCONTACTNO));
         $this->COMPANYID = htmlspecialchars(strip_tags($this->COMPANYID));
 
-        $stmt->bindParam(":companyname", $this->COMPANYNAME);
-        $stmt->bindParam(":companyaddress", $this->COMPANYADDRESS);
-        $stmt->bindParam(":companycontactno", $this->COMPANYCONTACTNO);
-        $stmt->bindParam(":companyid", $this->COMPANYID);
+        $stmt->bindParam(':companyname', $this->COMPANYNAME);
+        $stmt->bindParam(':companyaddress', $this->COMPANYADDRESS);
+        $stmt->bindParam(':companycontactno', $this->COMPANYCONTACTNO);
+        $stmt->bindParam(':companyid', $this->COMPANYID);
 
         if($stmt->execute()) {
             return true;
@@ -63,7 +82,7 @@ class Company {
         return false;
     }
 
-    function delete() {
+    public function delete() {
         $query = "DELETE FROM " . $this->table_name . " WHERE COMPANYID = ?";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(1, $this->COMPANYID);

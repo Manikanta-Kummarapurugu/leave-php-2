@@ -1,40 +1,48 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from './api.service';
+import { HttpService } from './http.service';
 import { Leave } from '../models/leave.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LeaveService {
-  constructor(private apiService: ApiService) {}
+  constructor(private httpService: HttpService) {}
 
   getAllLeaves(): Observable<Leave[]> {
-    return this.apiService.get<Leave[]>('/leaves');
+    return this.httpService.get<Leave[]>('/leaves');
   }
 
   getLeaveById(id: number): Observable<Leave> {
-    return this.apiService.get<Leave>(`/leaves/${id}`);
+    return this.httpService.get<Leave>(`/leaves/${id}`);
   }
 
   createLeave(leave: Leave): Observable<any> {
-    return this.apiService.post('/leaves', leave);
+    return this.httpService.post('/leaves', leave);
   }
 
   updateLeave(id: number, leave: Leave): Observable<any> {
-    return this.apiService.put(`/leaves/${id}`, leave);
+    return this.httpService.put(`/leaves/${id}`, leave);
   }
 
   deleteLeave(id: number): Observable<any> {
-    return this.apiService.delete(`/leaves/${id}`);
+    return this.httpService.delete(`/leaves/${id}`);
   }
 
   getLeavesByEmployee(employeeId: string): Observable<Leave[]> {
-    return this.apiService.get<Leave[]>(`/leaves/employee/${employeeId}`);
+    return this.httpService.get<Leave[]>(`/leaves/employee/${employeeId}`);
   }
 
   getLeavesByStatus(status: string): Observable<Leave[]> {
-    return this.apiService.get<Leave[]>(`/leaves/status/${status}`);
+    return this.httpService.get<Leave[]>(`/leaves/status/${status}`);
+  }
+
+  approveLeave(id: number, remarks: string): Observable<any> {
+    return this.httpService.put(`/leaves/${id}/approve`, { remarks });
+  }
+
+  rejectLeave(id: number, remarks: string): Observable<any> {
+    return this.httpService.put(`/leaves/${id}/reject`, { remarks });
   }
 }

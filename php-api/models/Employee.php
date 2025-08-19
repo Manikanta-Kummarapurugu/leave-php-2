@@ -2,92 +2,87 @@
 <?php
 class Employee {
     private $conn;
-    private $table_name = "tblemployee";
+    private $table_name = "employee";
 
-    public $EMPID;
     public $EMPLOYID;
     public $EMPNAME;
+    public $EMPUSERNAME;
+    public $EMPPASS;
     public $EMPADDRESS;
-    public $EMPCONTACT;
+    public $EMPCONTACTNO;
     public $EMPPOSITION;
-    public $EMPSEX;
-    public $COMPANY;
-    public $DEPARTMENT;
-    public $USERNAME;
-    public $PASSWRD;
-    public $ACCSTATUS;
-    public $AVELEAVE;
+    public $EMPSTATUS;
+    public $COMPANYID;
+    public $DEPARTMENTID;
 
     public function __construct($db) {
         $this->conn = $db;
     }
 
     public function read() {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY EMPNAME ASC";
+        $query = "SELECT e.*, c.COMPANYNAME, d.DEPARTMENT 
+                  FROM " . $this->table_name . " e
+                  LEFT JOIN company c ON e.COMPANYID = c.COMPANYID
+                  LEFT JOIN department d ON e.DEPARTMENTID = d.DEPARTMENTID
+                  ORDER BY e.EMPNAME";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt;
     }
 
     public function readOne() {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE EMPID = ? LIMIT 0,1";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE EMPLOYID = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->EMPID);
+        $stmt->bindParam(1, $this->EMPLOYID);
         $stmt->execute();
-        
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
         if($row) {
-            $this->EMPLOYID = $row['EMPLOYID'];
             $this->EMPNAME = $row['EMPNAME'];
+            $this->EMPUSERNAME = $row['EMPUSERNAME'];
+            $this->EMPPASS = $row['EMPPASS'];
             $this->EMPADDRESS = $row['EMPADDRESS'];
-            $this->EMPCONTACT = $row['EMPCONTACT'];
+            $this->EMPCONTACTNO = $row['EMPCONTACTNO'];
             $this->EMPPOSITION = $row['EMPPOSITION'];
-            $this->EMPSEX = $row['EMPSEX'];
-            $this->COMPANY = $row['COMPANY'];
-            $this->DEPARTMENT = $row['DEPARTMENT'];
-            $this->USERNAME = $row['USERNAME'];
-            $this->PASSWRD = $row['PASSWRD'];
-            $this->ACCSTATUS = $row['ACCSTATUS'];
-            $this->AVELEAVE = $row['AVELEAVE'];
+            $this->EMPSTATUS = $row['EMPSTATUS'];
+            $this->COMPANYID = $row['COMPANYID'];
+            $this->DEPARTMENTID = $row['DEPARTMENTID'];
             return true;
         }
         return false;
     }
 
     public function create() {
-        $query = "INSERT INTO " . $this->table_name . "
-                SET EMPLOYID=:employid, EMPNAME=:empname, EMPADDRESS=:empaddress,
-                    EMPCONTACT=:empcontact, EMPPOSITION=:empposition, EMPSEX=:empsex,
-                    COMPANY=:company, DEPARTMENT=:department, USERNAME=:username,
-                    PASSWRD=:passwrd, ACCSTATUS=:accstatus, AVELEAVE=:aveleave";
+        $query = "INSERT INTO " . $this->table_name . " 
+                  SET EMPLOYID=:employid, EMPNAME=:empname, EMPUSERNAME=:empusername, 
+                      EMPPASS=:emppass, EMPADDRESS=:empaddress, EMPCONTACTNO=:empcontactno,
+                      EMPPOSITION=:empposition, EMPSTATUS=:empstatus, COMPANYID=:companyid,
+                      DEPARTMENTID=:departmentid";
 
         $stmt = $this->conn->prepare($query);
 
         $this->EMPLOYID = htmlspecialchars(strip_tags($this->EMPLOYID));
         $this->EMPNAME = htmlspecialchars(strip_tags($this->EMPNAME));
+        $this->EMPUSERNAME = htmlspecialchars(strip_tags($this->EMPUSERNAME));
+        $this->EMPPASS = sha1($this->EMPPASS);
         $this->EMPADDRESS = htmlspecialchars(strip_tags($this->EMPADDRESS));
-        $this->EMPCONTACT = htmlspecialchars(strip_tags($this->EMPCONTACT));
+        $this->EMPCONTACTNO = htmlspecialchars(strip_tags($this->EMPCONTACTNO));
         $this->EMPPOSITION = htmlspecialchars(strip_tags($this->EMPPOSITION));
-        $this->EMPSEX = htmlspecialchars(strip_tags($this->EMPSEX));
-        $this->COMPANY = htmlspecialchars(strip_tags($this->COMPANY));
-        $this->DEPARTMENT = htmlspecialchars(strip_tags($this->DEPARTMENT));
-        $this->USERNAME = htmlspecialchars(strip_tags($this->USERNAME));
-        $this->PASSWRD = password_hash($this->PASSWRD, PASSWORD_DEFAULT);
-        $this->ACCSTATUS = 'ACTIVE';
-        $this->AVELEAVE = 15;
+        $this->EMPSTATUS = htmlspecialchars(strip_tags($this->EMPSTATUS));
+        $this->COMPANYID = htmlspecialchars(strip_tags($this->COMPANYID));
+        $this->DEPARTMENTID = htmlspecialchars(strip_tags($this->DEPARTMENTID));
 
         $stmt->bindParam(":employid", $this->EMPLOYID);
         $stmt->bindParam(":empname", $this->EMPNAME);
+        $stmt->bindParam(":empusername", $this->EMPUSERNAME);
+        $stmt->bindParam(":emppass", $this->EMPPASS);
         $stmt->bindParam(":empaddress", $this->EMPADDRESS);
-        $stmt->bindParam(":empcontact", $this->EMPCONTACT);
+        $stmt->bindParam(":empcontactno", $this->EMPCONTACTNO);
         $stmt->bindParam(":empposition", $this->EMPPOSITION);
-        $stmt->bindParam(":empsex", $this->EMPSEX);
-        $stmt->bindParam(":company", $this->COMPANY);
-        $stmt->bindParam(":department", $this->DEPARTMENT);
-        $stmt->bindParam(":username", $this->USERNAME);
-        $stmt->bindParam(":passwrd", $this->PASSWRD);
-        $stmt->bindParam(":accstatus", $this->ACCSTATUS);
-        $stmt->bindParam(":aveleave", $this->AVELEAVE);
+        $stmt->bindParam(":empstatus", $this->EMPSTATUS);
+        $stmt->bindParam(":companyid", $this->COMPANYID);
+        $stmt->bindParam(":departmentid", $this->DEPARTMENTID);
 
         if($stmt->execute()) {
             return true;
@@ -96,47 +91,48 @@ class Employee {
     }
 
     public function update() {
-        $query = "UPDATE " . $this->table_name . "
-                SET EMPLOYID = :employid,
-                    EMPNAME = :empname,
-                    EMPADDRESS = :empaddress,
-                    EMPCONTACT = :empcontact,
-                    EMPPOSITION = :empposition,
-                    EMPSEX = :empsex,
-                    COMPANY = :company,
-                    DEPARTMENT = :department,
-                    USERNAME = :username,
-                    ACCSTATUS = :accstatus,
-                    AVELEAVE = :aveleave
-                WHERE EMPID = :empid";
+        $query = "UPDATE " . $this->table_name . " 
+                  SET EMPNAME = :empname, 
+                      EMPUSERNAME = :empusername,
+                      EMPADDRESS = :empaddress,
+                      EMPCONTACTNO = :empcontactno,
+                      EMPPOSITION = :empposition,
+                      EMPSTATUS = :empstatus,
+                      COMPANYID = :companyid,
+                      DEPARTMENTID = :departmentid";
+
+        if (!empty($this->EMPPASS)) {
+            $query .= ", EMPPASS = :emppass";
+        }
+
+        $query .= " WHERE EMPLOYID = :employid";
 
         $stmt = $this->conn->prepare($query);
 
-        $this->EMPLOYID = htmlspecialchars(strip_tags($this->EMPLOYID));
         $this->EMPNAME = htmlspecialchars(strip_tags($this->EMPNAME));
+        $this->EMPUSERNAME = htmlspecialchars(strip_tags($this->EMPUSERNAME));
         $this->EMPADDRESS = htmlspecialchars(strip_tags($this->EMPADDRESS));
-        $this->EMPCONTACT = htmlspecialchars(strip_tags($this->EMPCONTACT));
+        $this->EMPCONTACTNO = htmlspecialchars(strip_tags($this->EMPCONTACTNO));
         $this->EMPPOSITION = htmlspecialchars(strip_tags($this->EMPPOSITION));
-        $this->EMPSEX = htmlspecialchars(strip_tags($this->EMPSEX));
-        $this->COMPANY = htmlspecialchars(strip_tags($this->COMPANY));
-        $this->DEPARTMENT = htmlspecialchars(strip_tags($this->DEPARTMENT));
-        $this->USERNAME = htmlspecialchars(strip_tags($this->USERNAME));
-        $this->ACCSTATUS = htmlspecialchars(strip_tags($this->ACCSTATUS));
-        $this->AVELEAVE = htmlspecialchars(strip_tags($this->AVELEAVE));
-        $this->EMPID = htmlspecialchars(strip_tags($this->EMPID));
+        $this->EMPSTATUS = htmlspecialchars(strip_tags($this->EMPSTATUS));
+        $this->COMPANYID = htmlspecialchars(strip_tags($this->COMPANYID));
+        $this->DEPARTMENTID = htmlspecialchars(strip_tags($this->DEPARTMENTID));
+        $this->EMPLOYID = htmlspecialchars(strip_tags($this->EMPLOYID));
 
-        $stmt->bindParam(':employid', $this->EMPLOYID);
         $stmt->bindParam(':empname', $this->EMPNAME);
+        $stmt->bindParam(':empusername', $this->EMPUSERNAME);
         $stmt->bindParam(':empaddress', $this->EMPADDRESS);
-        $stmt->bindParam(':empcontact', $this->EMPCONTACT);
+        $stmt->bindParam(':empcontactno', $this->EMPCONTACTNO);
         $stmt->bindParam(':empposition', $this->EMPPOSITION);
-        $stmt->bindParam(':empsex', $this->EMPSEX);
-        $stmt->bindParam(':company', $this->COMPANY);
-        $stmt->bindParam(':department', $this->DEPARTMENT);
-        $stmt->bindParam(':username', $this->USERNAME);
-        $stmt->bindParam(':accstatus', $this->ACCSTATUS);
-        $stmt->bindParam(':aveleave', $this->AVELEAVE);
-        $stmt->bindParam(':empid', $this->EMPID);
+        $stmt->bindParam(':empstatus', $this->EMPSTATUS);
+        $stmt->bindParam(':companyid', $this->COMPANYID);
+        $stmt->bindParam(':departmentid', $this->DEPARTMENTID);
+        $stmt->bindParam(':employid', $this->EMPLOYID);
+
+        if (!empty($this->EMPPASS)) {
+            $this->EMPPASS = sha1($this->EMPPASS);
+            $stmt->bindParam(':emppass', $this->EMPPASS);
+        }
 
         if($stmt->execute()) {
             return true;
@@ -145,9 +141,9 @@ class Employee {
     }
 
     public function delete() {
-        $query = "DELETE FROM " . $this->table_name . " WHERE EMPID = ?";
+        $query = "DELETE FROM " . $this->table_name . " WHERE EMPLOYID = ?";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->EMPID);
+        $stmt->bindParam(1, $this->EMPLOYID);
 
         if($stmt->execute()) {
             return true;
@@ -155,38 +151,44 @@ class Employee {
         return false;
     }
 
-    public function login() {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE USERNAME = ? AND ACCSTATUS = 'ACTIVE' LIMIT 0,1";
+    public function login($username, $password) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE EMPUSERNAME = ? AND EMPPASS = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->USERNAME);
+        $stmt->bindParam(1, $username);
+        $stmt->bindParam(2, sha1($password));
         $stmt->execute();
-        
+
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($row && password_verify($this->PASSWRD, $row['PASSWRD'])) {
-            $this->EMPID = $row['EMPID'];
+
+        if($row) {
             $this->EMPLOYID = $row['EMPLOYID'];
             $this->EMPNAME = $row['EMPNAME'];
+            $this->EMPUSERNAME = $row['EMPUSERNAME'];
             $this->EMPPOSITION = $row['EMPPOSITION'];
-            $this->COMPANY = $row['COMPANY'];
-            $this->DEPARTMENT = $row['DEPARTMENT'];
-            $this->ACCSTATUS = $row['ACCSTATUS'];
+            $this->EMPSTATUS = $row['EMPSTATUS'];
             return true;
         }
         return false;
     }
 
-    public function resetPassword() {
-        $query = "UPDATE " . $this->table_name . " SET PASSWRD = :passwrd WHERE EMPID = :empid";
+    public function resetPassword($currentPassword, $newPassword) {
+        $query = "SELECT EMPPASS FROM " . $this->table_name . " WHERE EMPLOYID = ? LIMIT 0,1";
         $stmt = $this->conn->prepare($query);
-        
-        $hashedPassword = password_hash($this->PASSWRD, PASSWORD_DEFAULT);
-        $this->EMPID = htmlspecialchars(strip_tags($this->EMPID));
-        
-        $stmt->bindParam(':passwrd', $hashedPassword);
-        $stmt->bindParam(':empid', $this->EMPID);
+        $stmt->bindParam(1, $this->EMPLOYID);
+        $stmt->execute();
 
-        if($stmt->execute()) {
-            return true;
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if($row && $row['EMPPASS'] === sha1($currentPassword)) {
+            $updateQuery = "UPDATE " . $this->table_name . " SET EMPPASS = ? WHERE EMPLOYID = ?";
+            $updateStmt = $this->conn->prepare($updateQuery);
+            $hashedNewPassword = sha1($newPassword);
+            $updateStmt->bindParam(1, $hashedNewPassword);
+            $updateStmt->bindParam(2, $this->EMPLOYID);
+
+            if($updateStmt->execute()) {
+                return true;
+            }
         }
         return false;
     }
