@@ -1,5 +1,8 @@
-
 export interface Company {
-  COMPID?: number;
-  COMPANY: string;
+  COMPANYID?: number;
+  COMPANYNAME: string;
+  COMPANYADDRESS: string;
+  COMPANYCONTACTNO: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

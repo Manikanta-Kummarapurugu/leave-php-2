@@ -1,6 +1,8 @@
-
 export interface LeaveType {
-  LEAVTID?: number;
+  LEAVETYPEID?: number;
   LEAVETYPE: string;
   DESCRIPTION: string;
+  MAXIMUMDAYS: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

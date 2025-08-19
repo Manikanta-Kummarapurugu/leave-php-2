@@ -1,6 +1,8 @@
-
 export interface Department {
-  DEPTID?: number;
-  DEPTNAME: string;
-  DEPTSHORTNAME: string;
+  DEPARTMENTID?: number;
+  DEPARTMENT: string;
+  DESCRIPTION: string;
+  COMPANYID: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

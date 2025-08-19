@@ -1,14 +1,20 @@
-
 export interface Employee {
   EMPID?: number;
-  EMPNAME: string;
-  EMPPOSITION: string;
+  EMPLOYEENO: string;
+  FNAME: string;
+  LNAME: string;
+  MNAME?: string;
+  ADDRESS: string;
+  CONTACTNO: string;
+  COMPANYID: number;
+  DEPARTMENTID: number;
+  POSITION: string;
+  STARTDATE: Date;
   USERNAME: string;
-  PASSWRD?: string;
-  ACCSTATUS: string;
-  EMPSEX: string;
-  COMPANY: string;
-  DEPARTMENT: string;
-  EMPLOYID: string;
-  AVELEAVE: number;
+  PASS?: string;
+  EMPTYPE: 'Administrator' | 'Supervisor' | 'Manager' | 'Normal user';
+  EMPSTATUS: 'Active' | 'Inactive';
+  PICLOCATION?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
