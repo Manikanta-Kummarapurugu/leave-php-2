@@ -1,0 +1,72 @@
+
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fa fa-table"></i> List of Employees
+    <a routerLink="/employees/add" class="btn btn-primary float-right" *ngIf="isAdmin()">
+      <i class="fa fa-plus-circle"></i> New
+    </a>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+
+      <table class="table table-bordered" *ngIf="!loading">
+        <thead>
+          <tr>
+            <th>EMP.ID</th>
+            <th>Employee Name</th>
+            <th>Sex</th>
+            <th>Email/Username</th>
+            <th>Company</th>
+            <th>Department</th>
+            <th>Position</th>
+            <th>Ave. Leave</th>
+            <th width="20%">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let employee of employees">
+            <td>{{ employee.EMPLOYID }}</td>
+            <td>{{ employee.EMPNAME }}</td>
+            <td>{{ employee.EMPSEX }}</td>
+            <td>{{ employee.USERNAME }}</td>
+            <td>{{ employee.COMPANY }}</td>
+            <td>{{ employee.DEPARTMENT }}</td>
+            <td>{{ employee.EMPPOSITION }}</td>
+            <td>{{ employee.AVELEAVE }}</td>
+            <td class="text-center">
+              <a 
+                [routerLink]="['/employees/edit', employee.EMPID]" 
+                class="btn btn-primary btn-sm me-2"
+                title="Edit">
+                <span class="fa fa-edit"></span>
+              </a>
+              <a 
+                [routerLink]="['/employees/reset', employee.EMPID]" 
+                class="btn btn-info btn-sm me-2"
+                title="Change Password">
+                <span class="fa fa-key"></span>
+              </a>
+              <button 
+                *ngIf="canDelete(employee)"
+                (click)="deleteEmployee(employee.EMPID)" 
+                class="btn btn-danger btn-sm"
+                title="Delete">
+                <span class="fa fa-trash-o"></span>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div *ngIf="!loading && employees.length === 0" class="text-center">
+        <p>No employees found.</p>
+      </div>
+    </div>
+  </div>
+</div>

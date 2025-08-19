@@ -1,0 +1,44 @@
+
+.dashboard-container {
+  padding: 20px;
+}
+
+.page-header {
+  margin-bottom: 20px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #eee;
+}
+
+.card-body-icon {
+  position: absolute;
+  z-index: 0;
+  top: -25px;
+  right: -25px;
+  font-size: 5rem;
+  transform: rotate(15deg);
+  opacity: 0.4;
+}
+
+.o-hidden {
+  overflow: hidden;
+}
+
+.z-1 {
+  z-index: 1;
+}
+
+.card-footer {
+  text-decoration: none;
+}
+
+.card-footer:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
