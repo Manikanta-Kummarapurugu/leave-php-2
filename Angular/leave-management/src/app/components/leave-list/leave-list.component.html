@@ -1,0 +1,60 @@
+
+<div class="container-fluid">
+  <h1 class="h3 mb-2 text-gray-800">Leave Applications</h1>
+  
+  <div class="card shadow mb-4">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Leave Applications List</h6>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive" *ngIf="!loading">
+        <table class="table table-bordered" width="100%">
+          <thead>
+            <tr>
+              <th>Employee ID</th>
+              <th>Date Start</th>
+              <th>Date End</th>
+              <th>No. of Days</th>
+              <th>Shift Time</th>
+              <th>Leave Type</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Admin Remarks</th>
+              <th>Date Posted</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let leave of leaves">
+              <td>{{ leave.EMPLOYID }}</td>
+              <td>{{ leave.DATESTART | date }}</td>
+              <td>{{ leave.DATEEND | date }}</td>
+              <td>{{ leave.NODAYS }}</td>
+              <td>{{ leave.SHIFTTIME }}</td>
+              <td>{{ leave.TYPEOFLEAVE }}</td>
+              <td>{{ leave.REASON }}</td>
+              <td>
+                <span [class]="getStatusClass(leave.LEAVESTATUS)">
+                  {{ leave.LEAVESTATUS }}
+                </span>
+              </td>
+              <td>{{ leave.ADMINREMARKS }}</td>
+              <td>{{ leave.DATEPOSTED | date }}</td>
+              <td>
+                <a [routerLink]="['/leaves/edit', leave.LEAVEID]" 
+                   class="btn btn-primary btn-sm">
+                  <i class="fa fa-edit"></i> Edit
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
