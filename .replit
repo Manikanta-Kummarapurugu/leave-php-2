@@ -4,7 +4,7 @@ modules = ["php-8.2", "web"]
 channel = "stable-25_05"
 
 [workflows]
-runButton = "Run Angular Dev Server"
+runButton = "Build and Run Angular"
 
 [[workflows.workflow]]
 name = "Run Angular Dev Server"
@@ -23,3 +23,21 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd php-api && php -S 0.0.0.0:8080"
+
+[[workflows.workflow]]
+name = "Install Dependencies"
+author = 46622848
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Angular/leave-management && npm install"
+
+[[workflows.workflow]]
+name = "Build and Run Angular"
+author = 46622848
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd Angular/leave-management && npm install && npm start"

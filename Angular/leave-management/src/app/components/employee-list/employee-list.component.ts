@@ -1,39 +1,35 @@
 
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { EmployeeService } from '../../services/employee.service';
-import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 import { Employee } from '../../models/employee.model';
+import { EmployeeService } from '../../services/employee.service';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.css']
 })
 export class EmployeeListComponent implements OnInit {
   employees: Employee[] = [];
-  loading = true;
-  currentUserId: number | null = null;
+  loading = false;
 
   constructor(
     private employeeService: EmployeeService,
-    private authService: AuthService
-  ) {
-    const currentUser = this.authService.getCurrentUser();
-    this.currentUserId = currentUser ? currentUser.EMPID : null;
-  }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadEmployees();
   }
 
   loadEmployees(): void {
-    this.employeeService.getAllEmployees().subscribe({
-      next: (employees) => {
-        this.employees = employees;
+    this.loading = true;
+    this.employeeService.getEmployees().subscribe({
+      next: (data) => {
+        this.employees = data;
         this.loading = false;
       },
       error: (error) => {
@@ -43,11 +39,20 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  deleteEmployee(id: number): void {
+  addEmployee(): void {
+    this.router.navigate(['/employee/add']);
+  }
+
+  editEmployee(employee: Employee): void {
+    this.router.navigate(['/employee/edit', employee.EMPLOYID]);
+  }
+
+  deleteEmployee(employeeId: number): void {
     if (confirm('Are you sure you want to delete this employee?')) {
-      this.employeeService.deleteEmployee(id).subscribe({
+      this.employeeService.deleteEmployee(employeeId).subscribe({
         next: () => {
           this.loadEmployees();
+          alert('Employee deleted successfully');
         },
         error: (error) => {
           console.error('Error deleting employee:', error);
@@ -57,12 +62,17 @@ export class EmployeeListComponent implements OnInit {
     }
   }
 
-  canDelete(employee: Employee): boolean {
-    return employee.EMPID !== this.currentUserId && 
-           employee.EMPPOSITION !== 'Administrator';
-  }
-
-  isAdmin(): boolean {
-    return this.authService.isAdmin();
+  resetPassword(employeeId: number): void {
+    if (confirm('Are you sure you want to reset this employee\'s password?')) {
+      this.employeeService.resetPassword(employeeId).subscribe({
+        next: () => {
+          alert('Password reset successfully');
+        },
+        error: (error) => {
+          console.error('Error resetting password:', error);
+          alert('Error resetting password');
+        }
+      });
+    }
   }
 }

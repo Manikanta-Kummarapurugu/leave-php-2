@@ -1,32 +1,33 @@
 
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ApiService } from './api.service';
+import { HttpService } from './http.service';
 import { Department } from '../models/department.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DepartmentService {
-  constructor(private apiService: ApiService) {}
 
-  getAllDepartments(): Observable<Department[]> {
-    return this.apiService.get<Department[]>('/departments');
+  constructor(private httpService: HttpService) { }
+
+  getDepartments(): Observable<Department[]> {
+    return this.httpService.get<Department[]>('/departments/read.php');
   }
 
-  getDepartmentById(id: number): Observable<Department> {
-    return this.apiService.get<Department>(`/departments/${id}`);
+  getDepartment(id: number): Observable<Department> {
+    return this.httpService.get<Department>(`/departments/read.php?id=${id}`);
   }
 
   createDepartment(department: Department): Observable<any> {
-    return this.apiService.post('/departments', department);
+    return this.httpService.post('/departments/create.php', department);
   }
 
   updateDepartment(id: number, department: Department): Observable<any> {
-    return this.apiService.put(`/departments/${id}`, department);
+    return this.httpService.put(`/departments/update.php?id=${id}`, department);
   }
 
   deleteDepartment(id: number): Observable<any> {
-    return this.apiService.delete(`/departments/${id}`);
+    return this.httpService.delete(`/departments/delete.php?id=${id}`);
   }
 }
