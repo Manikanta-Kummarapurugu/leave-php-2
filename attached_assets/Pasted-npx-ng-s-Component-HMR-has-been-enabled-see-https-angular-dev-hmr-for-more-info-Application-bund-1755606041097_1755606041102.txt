@@ -1,0 +1,153 @@
+npx ng s
+Component HMR has been enabled, see https://angular.dev/hmr for more info.
+Application bundle generation failed. [8.400 seconds]
+ 
+✘ [ERROR] NG9: Property 'COMPANYNAME' does not exist on type 'Company'. [plugin angular-compiler]
+ 
+    src/app/components/company-list/company-list.component.html:31:29:
+      31 │               <td>{{ company.COMPANYNAME }}</td>
+         ╵                              ~~~~~~~~~~~
+ 
+  Error occurs in the template of component CompanyListComponent.
+ 
+    src/app/components/company-list/company-list.component.ts:12:15:
+      12 │   templateUrl: './company-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG9: Property 'COMPANYADDRESS' does not exist on type 'Company'. [plugin angular-compiler]
+ 
+    src/app/components/company-list/company-list.component.html:32:29:
+      32 │               <td>{{ company.COMPANYADDRESS }}</td>
+         ╵                              ~~~~~~~~~~~~~~
+ 
+  Error occurs in the template of component CompanyListComponent.
+ 
+    src/app/components/company-list/company-list.component.ts:12:15:
+      12 │   templateUrl: './company-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG9: Property 'COMPANYCONTACTNO' does not exist on type 'Company'. [plugin angular-compiler]
+ 
+    src/app/components/company-list/company-list.component.html:33:29:
+      33 │               <td>{{ company.COMPANYCONTACTNO }}</td>
+         ╵                              ~~~~~~~~~~~~~~~~
+ 
+  Error occurs in the template of component CompanyListComponent.
+ 
+    src/app/components/company-list/company-list.component.ts:12:15:
+      12 │   templateUrl: './company-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG1: Property 'COMPANYID' does not exist on type 'Company'. Did you mean 'COMPANY'? [plugin angular-compiler]
+ 
+    src/app/components/company-list/company-list.component.html:35:58:
+      35 │ .../companies/edit/{{ company.COMPANYID }}" class="btn btn-sm btn-...
+         ╵                               ~~~~~~~~~
+ 
+  Error occurs in the template of component CompanyListComponent.
+ 
+    src/app/components/company-list/company-list.component.ts:12:15:
+      12 │   templateUrl: './company-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG1: Property 'COMPANYID' does not exist on type 'Company'. Did you mean 'COMPANY'? [plugin angular-compiler]
+ 
+    src/app/components/company-list/company-list.component.html:38:55:
+      38 │ ...ck)="deleteCompany(company.COMPANYID!)" class="btn btn-sm btn-d...
+         ╵                               ~~~~~~~~~
+ 
+  Error occurs in the template of component CompanyListComponent.
+ 
+    src/app/components/company-list/company-list.component.ts:12:15:
+      12 │   templateUrl: './company-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG1: Property 'authService' is private and only accessible within class 'DashboardComponent'. [plugin angular-compiler]
+ 
+    src/app/components/dashboard/dashboard.component.html:10:26:
+      10 │   <div class="row" *ngIf="authService.isAdmin() || authService.isS...
+         ╵                           ~~~~~~~~~~~
+ 
+  Error occurs in the template of component DashboardComponent.
+ 
+    src/app/components/dashboard/dashboard.component.ts:13:15:
+      13 │   templateUrl: './dashboard.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG1: Property 'authService' is private and only accessible within class 'DashboardComponent'. [plugin angular-compiler]
+ 
+    src/app/components/dashboard/dashboard.component.html:10:51:
+      10 │ ..."row" *ngIf="authService.isAdmin() || authService.isSupervisor()">
+         ╵                                          ~~~~~~~~~~~
+ 
+  Error occurs in the template of component DashboardComponent.
+ 
+    src/app/components/dashboard/dashboard.component.ts:13:15:
+      13 │   templateUrl: './dashboard.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG1: Property 'authService' is private and only accessible within class 'DashboardComponent'. [plugin angular-compiler]
+ 
+    src/app/components/dashboard/dashboard.component.html:80:26:
+      80 │   <div class="row" *ngIf="authService.isNormalUser()">
+         ╵                           ~~~~~~~~~~~
+ 
+  Error occurs in the template of component DashboardComponent.
+ 
+    src/app/components/dashboard/dashboard.component.ts:13:15:
+      13 │   templateUrl: './dashboard.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG9: Property 'DEPARTMENT' does not exist on type 'Department'. [plugin angular-compiler]
+ 
+    src/app/components/department-list/department-list.component.html:30:32:
+      30 │               <td>{{ department.DEPARTMENT }}</td>
+         ╵                                 ~~~~~~~~~~
+ 
+  Error occurs in the template of component DepartmentListComponent.
+ 
+    src/app/components/department-list/department-list.component.ts:12:15:
+      12 │   templateUrl: './department-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG9: Property 'DESCRIPTION' does not exist on type 'Department'. [plugin angular-compiler]
+ 
+    src/app/components/department-list/department-list.component.html:31:32:
+      31 │               <td>{{ department.DESCRIPTION }}</td>
+         ╵                                 ~~~~~~~~~~~
+ 
+  Error occurs in the template of component DepartmentListComponent.
+ 
+    src/app/components/department-list/department-list.component.ts:12:15:
+      12 │   templateUrl: './department-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] NG5: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. [plugin angular-compiler]
+ 
+    src/app/components/employee-list/employee-list.component.html:57:49:
+      57 │                 (click)="deleteEmployee(employee.EMPID)"
+         ╵                                                  ~~~~~
+ 
+  Error occurs in the template of component EmployeeListComponent.
+ 
+    src/app/components/employee-list/employee-list.component.ts:13:15:
+      13 │   templateUrl: './employee-list.component.html',
+         ╵                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ 
+✘ [ERROR] TS-992008: Could not find stylesheet file './leave-list.component.css'. [plugin angular-compiler]
+ 
+    src/app/components/leave-list/leave-list.component.ts:13:14:
+      13 │   styleUrls: ['./leave-list.component.css']
+         ╵               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
