@@ -1,0 +1,50 @@
+
+<div class="container-fluid">
+  <h1 class="h3 mb-2 text-gray-800">Departments</h1>
+  
+  <div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+      <h6 class="m-0 font-weight-bold text-primary">Departments List</h6>
+      <a routerLink="/departments/add" class="btn btn-primary btn-sm">
+        <i class="fa fa-plus"></i> Add Department
+      </a>
+    </div>
+    <div class="card-body">
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      
+      <div *ngIf="!loading" class="table-responsive">
+        <table class="table table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th>Department Name</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let department of departments">
+              <td>{{ department.DEPARTMENT }}</td>
+              <td>{{ department.DESCRIPTION }}</td>
+              <td>
+                <a routerLink="/departments/edit/{{ department.DEPTID }}" class="btn btn-sm btn-warning me-2">
+                  <i class="fa fa-edit"></i> Edit
+                </a>
+                <button (click)="deleteDepartment(department.DEPTID!)" class="btn btn-sm btn-danger">
+                  <i class="fa fa-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <div *ngIf="departments.length === 0" class="text-center">
+          <p>No departments found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

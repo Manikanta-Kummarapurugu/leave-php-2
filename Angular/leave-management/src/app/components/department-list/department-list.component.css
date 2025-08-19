@@ -1,0 +1,22 @@
+
+.table {
+  margin-bottom: 0;
+}
+
+.btn {
+  margin-right: 5px;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+.card-header {
+  background-color: #f8f9fc;
+  border-bottom: 1px solid #e3e6f0;
+}
+
+.text-gray-800 {
+  color: #5a5c69 !important;
+}
